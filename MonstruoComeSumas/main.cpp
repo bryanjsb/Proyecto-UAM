@@ -31,6 +31,10 @@ int dado();
 void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta);
 bool evaluarSuma(int i, int j, int respuesta);
 void pintar(int i, int j,int k, int l, int respuesta, string *nombreJugador);
+void jugar(string *nombreJugador, int *posicionActual);
+
+
+
 int main()
 {
     srand(time(NULL));
@@ -39,11 +43,11 @@ int main()
     //Jugador 1
     //es una variable local su ambito es el int main
     string nombreJugador1;
-    //jugador(&nombreJugador1,1);
+    jugador(&nombreJugador1,1);
 
     //Jugador 2
     string nombreJugador2;
-    //jugador(&nombreJugador2,2);
+    jugador(&nombreJugador2,2);
 
     juego(&nombreJugador1,&nombreJugador2);
 
@@ -222,59 +226,46 @@ void juego(string *nombreJugador1, string *nombreJugador2)
 
     llenarCarton();
 
-    int posicionActual=1;
-    int resultadoDado=0;
-    int respuesta = 0;
+    int posicionActual=50;
+    int posicionActual2=1;
+
+
     bool meta = false;
 
     do
     {
-        mostrarCarton();
-        //Pedir la posicion Jugador
-        cout<<"Jugador: "<<*nombreJugador1<<endl;
-        cout<<"Lanzar Dado presionar ENTER"<<endl;
-        system("pause");
 
-        resultadoDado = dado();
-
-        //cout<<endl<<endl<<endl;
-        //mostrarCartonResultado();
-        posicionActual += resultadoDado;
-
-        cout<<"dado: "<<resultadoDado<<endl;
-        cout<<"Posicion Actual: "<<posicionActual-1<<endl;
-
-        system("pause");
-        //Conocer si la posicion actual es monstruo
-        if(posicionActual == 3 || posicionActual == 7 || posicionActual == 11
-                || posicionActual == 15|| posicionActual == 21 || posicionActual == 25
-                || posicionActual == 29 || posicionActual == 33 || posicionActual == 39
-                || posicionActual == 42 || posicionActual == 47 || posicionActual == 51
-          )
-        {
-            cout<<"Caiste en un MONSTRUO, PERDIO TURNO, SE DEVUELVE AL MONSTRUO ANTERIOR"<<endl;
-            evaluaMovimiento(nombreJugador1,&posicionActual,0);
-            system("pause");
-        }
-        else
-        {
-            if(posicionActual <53){
-                cout<<"Ingrese su respuesta"<<endl;
-                cin>>respuesta;
-
-                evaluaMovimiento(nombreJugador1,&posicionActual,respuesta);
-            }
-
-        }
-
+        // es para jugador 1
         if(posicionActual >= 53)
         {
             meta = true;
             posicionActual = 53;
             evaluaMovimiento(nombreJugador1,&posicionActual,0);
+        }else{
+            jugar(nombreJugador1,&posicionActual);
+        }
+
+        // es para jugador 2
+        if(posicionActual2 >= 53)
+        {
+            meta = true;
+            posicionActual2 = 53;
+            evaluaMovimiento(nombreJugador2,&posicionActual2,0);
+        }else{
+             jugar(nombreJugador2,&posicionActual2);
         }
 
         mostrarCarton();
+
+        //este if es para saber quien gano
+        if(meta == true){
+            if(posicionActual>=53){
+                cout<<"EL JUGADOR "<<*nombreJugador1<<" GANO"<<endl;
+            }
+            else{
+                cout<<"EL JUGADOR "<<*nombreJugador2<<" GANO"<<endl;
+            }
+        }
 
         if(meta == true)
         {
@@ -314,6 +305,50 @@ void pintar(int i, int j,int k, int l, int respuesta, string *nombreJugador)
         matrizPantalla[k][l] = matrizPantalla[k][l] +"("+ *nombreJugador+")";
         cout<<"La respuesta es incorrecta"<<endl;
         system("pause");
+    }
+}
+
+void jugar(string *nombreJugador, int *posicionActual)
+{
+    int resultadoDado=0;
+    int respuesta = 0;
+    mostrarCarton();
+    //Pedir la posicion Jugador
+    cout<<"Jugador: "<<*nombreJugador<<endl;
+    cout<<"Lanzar Dado presionar ENTER"<<endl;
+    system("pause");
+
+    resultadoDado = dado();
+
+    //cout<<endl<<endl<<endl;
+    //mostrarCartonResultado();
+    *posicionActual += resultadoDado;
+
+    cout<<"dado: "<<resultadoDado<<endl;
+    cout<<"Posicion Actual: "<<*posicionActual-1<<endl;
+
+    system("pause");
+    //Conocer si la posicion actual es monstruo
+    if(*posicionActual == 3 || *posicionActual == 7 || *posicionActual == 11
+            || *posicionActual == 15|| *posicionActual == 21 || *posicionActual == 25
+            || *posicionActual == 29 || *posicionActual == 33 || *posicionActual == 39
+            || *posicionActual == 43 || *posicionActual == 47 || *posicionActual == 51
+      )
+    {
+        cout<<"CAISTE EN UN MONSTRUO, PERDIO TURNO, SE DEVUELVE AL MONSTRUO ANTERIOR"<<endl;
+        evaluaMovimiento(nombreJugador,posicionActual,0);
+        system("pause");
+    }
+    else
+    {
+        if(*posicionActual <53)
+        {
+            cout<<"Ingrese su respuesta"<<endl;
+            cin>>respuesta;
+
+            evaluaMovimiento(nombreJugador,posicionActual,respuesta);
+        }
+
     }
 }
 
