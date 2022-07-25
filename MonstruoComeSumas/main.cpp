@@ -225,9 +225,11 @@ void juego(string *nombreJugador1, string *nombreJugador2)
     int opcion = 1;
 
     llenarCarton();
-    int posicionActual=52;
-    int posicionActual2=51;
+    int posicionActual=1;
+    int posicionActual2=1;
     bool meta = false;
+
+
 
     do
     {
@@ -278,6 +280,10 @@ void juego(string *nombreJugador1, string *nombreJugador2)
                 posicionActual=1;
                 posicionActual2=1;
                 meta = false;
+
+
+                jugador(nombreJugador1,1);
+                jugador(nombreJugador2,2);
             }
         }
     }
