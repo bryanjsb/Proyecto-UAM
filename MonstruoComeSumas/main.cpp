@@ -5,29 +5,32 @@
 #include <iomanip>
 using namespace std;
 
-// variable global
+//inicio
 void bienvenida();
+
+//Jugador
 void jugador(string *nombre,int numero);
 
-void juego(string *nombreJugador1, string *nombreJugador2);//la funcion principal
-bool validarPosicion(string);
-int dado();
-void camino(string *nombreJugador, int *posicionActual);
-//Crear matrices
-//VARIABLE IMPORTANTE
+//Matrices
 string matrizPantalla[11][8];
-string matrizPantallaCopia[11][8];
 int matrizResultado[11][8];
+string matrizPantallaCopia[11][8];
 
-void crearMatrizPantalla();
-void obtenerNumeros();
+void llenarCarton();
+void crearSumas();
 int numeroAleatorio();
-void imprimirMatriz();
-void imprimirMatrizResultado();
-string parseInt(int, int);
+void mostrarCarton();
+void mostrarCartonResultado();
+string presentarSuma(int, int);
 void crearCopia();
 void limpiarMatriz();
 
+//Juego
+void juego(string *nombreJugador1, string *nombreJugador2);//la funcion principal
+int dado();
+void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta);
+bool evaluarSuma(int i, int j, int respuesta);
+void pintar(int i, int j,int k, int l, int respuesta, string *nombreJugador);
 int main()
 {
     srand(time(NULL));
@@ -60,15 +63,15 @@ void jugador(string *nombre, int numero)
     cin>>*nombre ;
 }
 
-void crearMatrizPantalla()
+void llenarCarton()
 {
+    string pared = "==========";
     matrizPantalla[0][0] = "INICIO";
-    matrizPantalla[10][0]="FIN";
+    matrizPantalla[10][0]="META";
 
     //monstruos
     matrizPantalla[0][2]="MONSTRUO";
     matrizPantalla[0][6]="MONSTRUO";
-
     matrizPantalla[2][2]="MONSTRUO";
     matrizPantalla[2][6]="MONSTRUO";
     matrizPantalla[4][2]="MONSTRUO";
@@ -81,48 +84,48 @@ void crearMatrizPantalla()
     matrizPantalla[10][6]="MONSTRUO";
 
     //paredes
-    matrizPantalla[1][0]="======";
-    matrizPantalla[1][1]="======";
-    matrizPantalla[1][2]="======";
-    matrizPantalla[1][3]="======";
-    matrizPantalla[1][4]="======";
-    matrizPantalla[1][5]="======";
-    matrizPantalla[1][6]="======";
-    matrizPantalla[3][1]="======";
-    matrizPantalla[3][2]="======";
-    matrizPantalla[3][3]="======";
-    matrizPantalla[3][4]="======";
-    matrizPantalla[3][5]="======";
-    matrizPantalla[3][6]="======";
-    matrizPantalla[3][7]="======";
-    matrizPantalla[5][0]="======";
-    matrizPantalla[5][1]="======";
-    matrizPantalla[5][2]="======";
-    matrizPantalla[5][3]="======";
-    matrizPantalla[5][4]="======";
-    matrizPantalla[5][5]="======";
-    matrizPantalla[5][6]="======";
-    matrizPantalla[7][1]="======";
-    matrizPantalla[7][2]="======";
-    matrizPantalla[7][3]="======";
-    matrizPantalla[7][4]="======";
-    matrizPantalla[7][5]="======";
-    matrizPantalla[7][6]="======";
-    matrizPantalla[7][7]="======";
-    matrizPantalla[9][0]="======";
-    matrizPantalla[9][1]="======";
-    matrizPantalla[9][2]="======";
-    matrizPantalla[9][3]="======";
-    matrizPantalla[9][4]="======";
-    matrizPantalla[9][5]="======";
-    matrizPantalla[9][6]="======";
+    matrizPantalla[1][0]=pared;
+    matrizPantalla[1][1]=pared;
+    matrizPantalla[1][2]=pared;
+    matrizPantalla[1][3]=pared;
+    matrizPantalla[1][4]=pared;
+    matrizPantalla[1][5]=pared;
+    matrizPantalla[1][6]=pared;
+    matrizPantalla[3][1]=pared;
+    matrizPantalla[3][2]=pared;
+    matrizPantalla[3][3]=pared;
+    matrizPantalla[3][4]=pared;
+    matrizPantalla[3][5]=pared;
+    matrizPantalla[3][6]=pared;
+    matrizPantalla[3][7]=pared;
+    matrizPantalla[5][0]=pared;
+    matrizPantalla[5][1]=pared;
+    matrizPantalla[5][2]=pared;
+    matrizPantalla[5][3]=pared;
+    matrizPantalla[5][4]=pared;
+    matrizPantalla[5][5]=pared;
+    matrizPantalla[5][6]=pared;
+    matrizPantalla[7][1]=pared;
+    matrizPantalla[7][2]=pared;
+    matrizPantalla[7][3]=pared;
+    matrizPantalla[7][4]=pared;
+    matrizPantalla[7][5]=pared;
+    matrizPantalla[7][6]=pared;
+    matrizPantalla[7][7]=pared;
+    matrizPantalla[9][0]=pared;
+    matrizPantalla[9][1]=pared;
+    matrizPantalla[9][2]=pared;
+    matrizPantalla[9][3]=pared;
+    matrizPantalla[9][4]=pared;
+    matrizPantalla[9][5]=pared;
+    matrizPantalla[9][6]=pared;
 
-    obtenerNumeros();
+    crearSumas();
     crearCopia();
 
 }
 
-void obtenerNumeros()
+void crearSumas()
 {
 
     int operador1, operador2;
@@ -136,7 +139,7 @@ void obtenerNumeros()
 
             if(matrizPantalla[i][j] == "")
             {
-                matrizPantalla[i][j] = parseInt(operador1,operador2);
+                matrizPantalla[i][j] = presentarSuma(operador1,operador2);
                 matrizResultado[i][j] = operador1 + operador2;
             }
 
@@ -145,7 +148,7 @@ void obtenerNumeros()
 }
 
 
-void imprimirMatriz()
+void mostrarCarton()
 {
     system("cls");
     cout<<endl<<"Carton"<<endl;
@@ -160,7 +163,7 @@ void imprimirMatriz()
     cout<<endl<<endl;
 }
 
-void imprimirMatrizResultado()
+void mostrarCartonResultado()
 {
     //system("cls");
     cout<<endl<<"Carton"<<endl;
@@ -187,6 +190,7 @@ void crearCopia()
     }
 
 }
+
 void limpiarMatriz()
 {
     for(int i=0; i<11; i++)
@@ -206,7 +210,7 @@ int numeroAleatorio()
 }
 
 //convertirmos de int a string
-string parseInt(int a, int b)
+string presentarSuma(int a, int b)
 {
     stringstream s;
     s<<a<<"+"<<b;
@@ -217,50 +221,80 @@ void juego(string *nombreJugador1, string *nombreJugador2)
 {
     //1 es continuar
     //2 es salir
-    int opcion=1;
+    int opcion = 1;
 
-    crearMatrizPantalla();
+    llenarCarton();
 
-    int posicionActual;
-    int resultadoDado;
-
-
-
+    int posicionActual=1;
+    int resultadoDado=0;
+    int respuesta = 0;
+    bool meta = false;
 
     do
     {
-        imprimirMatriz();
+        mostrarCarton();
         //pedir la posicion Jugador1
         cout<<"Jugador: "<<*nombreJugador1<<endl;
         cout<<"Lanzar Dado presionar ENTER"<<endl;
         system("pause");
 
-        resultadoDado = 7;
+        resultadoDado = dado();
 
         //cout<<endl<<endl<<endl;
-        //imprimirMatrizResultado();
+        //mostrarCartonResultado();
         posicionActual += resultadoDado;
-        camino(nombreJugador1,&posicionActual);
 
-        imprimirMatriz();
-
-        cout<<"dado: "<<resultadoDado<<endl;
+        cout<<"dado: "<<resultadoDado-1<<endl;
         cout<<"Posicion Actual: "<<posicionActual<<endl;
 
+        system("pause");
+        //conocer si la posicion actual es monstruo
+        if(posicionActual == 3 || posicionActual == 7 || posicionActual == 11
+                || posicionActual == 15|| posicionActual == 21 || posicionActual == 25
+                || posicionActual == 29 || posicionActual == 33 || posicionActual == 39
+                || posicionActual == 42 || posicionActual == 47 || posicionActual == 51
+          )
+        {
+            evaluaMovimiento(nombreJugador1,&posicionActual,0);
+        }
+        else
+        {
+
+            cout<<"Ingrese su respuesta"<<endl;
+            cin>>respuesta;
+
+            evaluaMovimiento(nombreJugador1,&posicionActual,respuesta);
+        }
 
 
-        cout<<"Presione 1 para Continuar jugando"<<endl;
-        cout<<"Presione cualquier tecla para Salir"<<endl;
-        cin>>opcion;
+
+        if(posicionActual >= 53)
+        {
+            meta = true;
+            posicionActual = 53;
+            evaluaMovimiento(nombreJugador1,&posicionActual,0);
+        }
+
+        mostrarCarton();
+
+        if(meta == true)
+        {
+            cout<<"Presione 1 para Continuar jugando"<<endl;
+            cout<<"Presione cualquier tecla para Salir"<<endl;
+            cin>>opcion;
+
+            if(opcion == 1)
+            {
+                llenarCarton();
+            }
+        }
+
+
+
+
 
     }
     while(opcion==1);
-}
-
-bool validarPosicion(string valor)
-{
-    // (valor == "INICIO" || valor =="FIN" || valor "======");
-    return true;
 }
 
 int dado()
@@ -268,7 +302,26 @@ int dado()
     return 1 + rand()%6;
 }
 
-void camino(string *nombreJugador, int *posicionActual)
+bool evaluarSuma(int i, int j, int respuesta)
+{
+    int resultado = matrizResultado[i][j];
+    return resultado == respuesta;
+}
+
+void pintar(int i, int j,int k, int l, int respuesta, string *nombreJugador)
+{
+
+    if(evaluarSuma(0,1, respuesta))
+    {
+        matrizPantalla[i][j] = matrizPantalla[i][j] +"("+ *nombreJugador+")";
+    }
+    else
+    {
+        matrizPantalla[k][l] = matrizPantalla[k][l] +"("+ *nombreJugador+")";
+    }
+}
+
+void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
 {
     limpiarMatriz();
 
@@ -276,12 +329,14 @@ void camino(string *nombreJugador, int *posicionActual)
     {
     case 1:
     {
+        //INICIO
         matrizPantalla[0][0] = matrizPantalla[0][0] +"("+ *nombreJugador+")";
     }
     break;
     case 2:
     {
-        matrizPantalla[0][1] = matrizPantalla[0][1] +"("+ *nombreJugador+")";
+        pintar(0,1,0,0,respuesta,nombreJugador);
+
     }
     break;
     case 3:
@@ -571,6 +626,7 @@ void camino(string *nombreJugador, int *posicionActual)
     break;
     case 53:
     {
+        //META
         matrizPantalla[10][0] = matrizPantalla[10][0] +"("+ *nombreJugador+")";
     }
     break;
