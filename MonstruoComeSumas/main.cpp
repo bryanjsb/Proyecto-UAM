@@ -226,7 +226,7 @@ void juego(string *nombreJugador1, string *nombreJugador2)
 
     llenarCarton();
 
-    int posicionActual=50;
+    int posicionActual=1;
     int posicionActual2=1;
 
 
@@ -235,14 +235,15 @@ void juego(string *nombreJugador1, string *nombreJugador2)
     do
     {
 
+        jugar(nombreJugador1,&posicionActual);
+        jugar(nombreJugador2,&posicionActual2);
+
         // es para jugador 1
         if(posicionActual >= 53)
         {
             meta = true;
             posicionActual = 53;
             evaluaMovimiento(nombreJugador1,&posicionActual,0);
-        }else{
-            jugar(nombreJugador1,&posicionActual);
         }
 
         // es para jugador 2
@@ -251,8 +252,6 @@ void juego(string *nombreJugador1, string *nombreJugador2)
             meta = true;
             posicionActual2 = 53;
             evaluaMovimiento(nombreJugador2,&posicionActual2,0);
-        }else{
-             jugar(nombreJugador2,&posicionActual2);
         }
 
         mostrarCarton();
@@ -262,7 +261,7 @@ void juego(string *nombreJugador1, string *nombreJugador2)
             if(posicionActual>=53){
                 cout<<"EL JUGADOR "<<*nombreJugador1<<" GANO"<<endl;
             }
-            else{
+            else if(posicionActual2>=53){
                 cout<<"EL JUGADOR "<<*nombreJugador2<<" GANO"<<endl;
             }
         }
@@ -280,6 +279,7 @@ void juego(string *nombreJugador1, string *nombreJugador2)
         }
     }
     while(opcion==1);
+
 }
 
 int dado()
