@@ -244,8 +244,8 @@ void juego(string *nombreJugador1, string *nombreJugador2)
         //mostrarCartonResultado();
         posicionActual += resultadoDado;
 
-        cout<<"dado: "<<resultadoDado-1<<endl;
-        cout<<"Posicion Actual: "<<posicionActual<<endl;
+        cout<<"dado: "<<resultadoDado<<endl;
+        cout<<"Posicion Actual: "<<posicionActual-1<<endl;
 
         system("pause");
         //conocer si la posicion actual es monstruo
@@ -255,6 +255,7 @@ void juego(string *nombreJugador1, string *nombreJugador2)
                 || posicionActual == 42 || posicionActual == 47 || posicionActual == 51
           )
         {
+            cerr<<"Caiste en un MONSTRUO, PERDIO TURNO, SE DEVUELVE AL MONSTRUO ANTERIOR"<<endl;
             evaluaMovimiento(nombreJugador1,&posicionActual,0);
         }
         else
@@ -311,7 +312,7 @@ bool evaluarSuma(int i, int j, int respuesta)
 void pintar(int i, int j,int k, int l, int respuesta, string *nombreJugador)
 {
 
-    if(evaluarSuma(0,1, respuesta))
+    if(evaluarSuma(i,j, respuesta))
     {
         matrizPantalla[i][j] = matrizPantalla[i][j] +"("+ *nombreJugador+")";
     }
@@ -335,8 +336,8 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 2:
     {
+        // para este caso se devuelve a inicio
         pintar(0,1,0,0,respuesta,nombreJugador);
-
     }
     break;
     case 3:
@@ -347,17 +348,17 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 4:
     {
-        matrizPantalla[0][3] = matrizPantalla[0][3] +"("+ *nombreJugador+")";
+        pintar(0,3,0,2,respuesta,nombreJugador);
     }
     break;
     case 5:
     {
-        matrizPantalla[0][4] = matrizPantalla[0][4] +"("+ *nombreJugador+")";
+         pintar(0,4,0,2,respuesta,nombreJugador);
     }
     break;
     case 6:
     {
-        matrizPantalla[0][5] = matrizPantalla[0][5] +"("+ *nombreJugador+")";
+        pintar(0,5,0,2,respuesta,nombreJugador);
     }
     break;
     case 7:
