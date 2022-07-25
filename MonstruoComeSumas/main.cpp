@@ -5,7 +5,7 @@
 #include <iomanip>
 using namespace std;
 
-//inicio
+//Inicio
 void bienvenida();
 
 //Jugador
@@ -63,13 +63,14 @@ void jugador(string *nombre, int numero)
     cin>>*nombre ;
 }
 
+//Metodo para crear el tablero en la matriz
 void llenarCarton()
 {
     string pared = "==========";
     matrizPantalla[0][0] = "INICIO";
     matrizPantalla[10][0]="META";
 
-    //monstruos
+    //Monstruos
     matrizPantalla[0][2]="MONSTRUO";
     matrizPantalla[0][6]="MONSTRUO";
     matrizPantalla[2][2]="MONSTRUO";
@@ -83,7 +84,7 @@ void llenarCarton()
     matrizPantalla[10][2]="MONSTRUO";
     matrizPantalla[10][6]="MONSTRUO";
 
-    //paredes
+    //Paredes
     matrizPantalla[1][0]=pared;
     matrizPantalla[1][1]=pared;
     matrizPantalla[1][2]=pared;
@@ -127,7 +128,6 @@ void llenarCarton()
 
 void crearSumas()
 {
-
     int operador1, operador2;
     stringstream s;
     for(int i=0; i<11; i++)
@@ -142,7 +142,6 @@ void crearSumas()
                 matrizPantalla[i][j] = presentarSuma(operador1,operador2);
                 matrizResultado[i][j] = operador1 + operador2;
             }
-
         }
     }
 }
@@ -177,7 +176,7 @@ void mostrarCartonResultado()
     }
     cout<<endl<<endl;
 }
-
+//Metodos para sobreescribir la matriz
 void crearCopia()
 {
     for(int i=0; i<11; i++)
@@ -190,7 +189,7 @@ void crearCopia()
     }
 
 }
-
+//Metodos para sobreescribir la matriz
 void limpiarMatriz()
 {
     for(int i=0; i<11; i++)
@@ -203,13 +202,13 @@ void limpiarMatriz()
     }
 
 }
-
+//Numeros para la suma
 int numeroAleatorio()
 {
     return 1 + rand()%50;
 }
 
-//convertirmos de int a string
+//Covertirmos de int a string
 string presentarSuma(int a, int b)
 {
     stringstream s;
@@ -219,8 +218,6 @@ string presentarSuma(int a, int b)
 
 void juego(string *nombreJugador1, string *nombreJugador2)
 {
-    //1 es continuar
-    //2 es salir
     int opcion = 1;
 
     llenarCarton();
@@ -233,7 +230,7 @@ void juego(string *nombreJugador1, string *nombreJugador2)
     do
     {
         mostrarCarton();
-        //pedir la posicion Jugador1
+        //Pedir la posicion Jugador1
         cout<<"Jugador: "<<*nombreJugador1<<endl;
         cout<<"Lanzar Dado presionar ENTER"<<endl;
         system("pause");
@@ -248,7 +245,7 @@ void juego(string *nombreJugador1, string *nombreJugador2)
         cout<<"Posicion Actual: "<<posicionActual-1<<endl;
 
         system("pause");
-        //conocer si la posicion actual es monstruo
+        //Conocer si la posicion actual es monstruo
         if(posicionActual == 3 || posicionActual == 7 || posicionActual == 11
                 || posicionActual == 15|| posicionActual == 21 || posicionActual == 25
                 || posicionActual == 29 || posicionActual == 33 || posicionActual == 39
@@ -289,11 +286,6 @@ void juego(string *nombreJugador1, string *nombreJugador2)
                 llenarCarton();
             }
         }
-
-
-
-
-
     }
     while(opcion==1);
 }
@@ -372,17 +364,17 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 8:
     {
-        matrizPantalla[0][7] = matrizPantalla[0][7] +"("+ *nombreJugador+")";
+        pintar(0,7,0,6,respuesta,nombreJugador);
     }
     break;
     case 9:
     {
-        matrizPantalla[1][7] = matrizPantalla[1][7] +"("+ *nombreJugador+")";
+        pintar(1,7,0,6,respuesta,nombreJugador);
     }
     break;
     case 10:
     {
-        matrizPantalla[2][7] = matrizPantalla[2][7] +"("+ *nombreJugador+")";
+        pintar(2,7,0,6,respuesta,nombreJugador);
     }
     break;
     case 11:
@@ -395,17 +387,18 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 12:
     {
-        matrizPantalla[2][5] = matrizPantalla[2][5] +"("+ *nombreJugador+")";
+        pintar(2,5,2,6,respuesta,nombreJugador);
     }
     break;
     case 13:
     {
-        matrizPantalla[2][4] = matrizPantalla[2][4] +"("+ *nombreJugador+")";
+        pintar(2,4,2,6,respuesta,nombreJugador);
+
     }
     break;
     case 14:
     {
-        matrizPantalla[2][3] = matrizPantalla[2][3] +"("+ *nombreJugador+")";
+        pintar(2,3,2,6,respuesta,nombreJugador);
     }
     break;
     case 15:
@@ -418,27 +411,27 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 16:
     {
-        matrizPantalla[2][1] = matrizPantalla[2][1] +"("+ *nombreJugador+")";
+        pintar(2,1,2,2,respuesta,nombreJugador);
     }
     break;
     case 17:
     {
-        matrizPantalla[2][0] = matrizPantalla[2][0] +"("+ *nombreJugador+")";
+        pintar(2,0,2,2,respuesta,nombreJugador);
     }
     break;
     case 18:
     {
-        matrizPantalla[3][0] = matrizPantalla[3][0] +"("+ *nombreJugador+")";
+        pintar(3,0,2,2,respuesta,nombreJugador);
     }
     break;
     case 19:
     {
-        matrizPantalla[4][0] = matrizPantalla[4][0] +"("+ *nombreJugador+")";
+        pintar(4,0,2,2,respuesta,nombreJugador);
     }
     break;
     case 20:
     {
-        matrizPantalla[4][1] = matrizPantalla[4][1] +"("+ *nombreJugador+")";
+        pintar(4,1,2,2,respuesta,nombreJugador);
     }
     break;
     case 21:
@@ -451,18 +444,19 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 22:
     {
-        matrizPantalla[4][3] = matrizPantalla[4][3] +"("+ *nombreJugador+")";
+        pintar(4,3,4,2,respuesta,nombreJugador);
     }
     break;
     case 23:
     {
-        matrizPantalla[4][4] = matrizPantalla[4][4] +"("+ *nombreJugador+")";
+        pintar(4,4,4,2,respuesta,nombreJugador);
     }
     break;
     case 24:
     {
-        matrizPantalla[4][5] = matrizPantalla[4][5] +"("+ *nombreJugador+")";
+        pintar(4,5,4,2,respuesta,nombreJugador);
     }
+
     break;
     case 25:
     {
@@ -474,17 +468,17 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 26:
     {
-        matrizPantalla[4][7] = matrizPantalla[4][7] +"("+ *nombreJugador+")";
+        pintar(4,7,4,6,respuesta,nombreJugador);
     }
     break;
     case 27:
     {
-        matrizPantalla[5][7] = matrizPantalla[5][7] +"("+ *nombreJugador+")";
+        pintar(5,7,4,6,respuesta,nombreJugador);
     }
     break;
     case 28:
     {
-        matrizPantalla[6][7] = matrizPantalla[6][7] +"("+ *nombreJugador+")";
+        pintar(6,7,4,6,respuesta,nombreJugador);
     }
     break;
     case 29:
@@ -497,17 +491,17 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 30:
     {
-        matrizPantalla[6][5] = matrizPantalla[6][5] +"("+ *nombreJugador+")";
+        pintar(6,5,6,6,respuesta,nombreJugador);
     }
     break;
     case 31:
     {
-        matrizPantalla[6][4] = matrizPantalla[6][4] +"("+ *nombreJugador+")";
+        pintar(6,4,6,6,respuesta,nombreJugador);
     }
     break;
     case 32:
     {
-        matrizPantalla[6][3] = matrizPantalla[6][3] +"("+ *nombreJugador+")";
+        pintar(6,3,6,6,respuesta,nombreJugador);
     }
     break;
     case 33:
@@ -520,27 +514,27 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 34:
     {
-        matrizPantalla[6][1] = matrizPantalla[6][1] +"("+ *nombreJugador+")";
+        pintar(6,1,6,2,respuesta,nombreJugador);
     }
     break;
     case 35:
     {
-        matrizPantalla[6][0] = matrizPantalla[6][0] +"("+ *nombreJugador+")";
+        pintar(6,0,6,2,respuesta,nombreJugador);
     }
     break;
     case 36:
     {
-        matrizPantalla[7][0] = matrizPantalla[7][0] +"("+ *nombreJugador+")";
+        pintar(7,0,6,2,respuesta,nombreJugador);
     }
     break;
     case 37:
     {
-        matrizPantalla[8][0] = matrizPantalla[8][0] + "("+ *nombreJugador+")";
+        pintar(8,0,6,2,respuesta,nombreJugador);
     }
     break;
     case 38:
     {
-        matrizPantalla[8][1] = matrizPantalla[8][1] + "("+ *nombreJugador+")";
+        pintar(8,1,6,2,respuesta,nombreJugador);
     }
     break;
     case 39:
@@ -553,17 +547,17 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 40:
     {
-        matrizPantalla[8][3] = matrizPantalla[8][3] +"("+ *nombreJugador+")";
+        pintar(8,3,8,2,respuesta,nombreJugador);
     }
     break;
     case 41:
     {
-        matrizPantalla[8][4] = matrizPantalla[8][4] +"("+ *nombreJugador+")";
+        pintar(8,4,8,2,respuesta,nombreJugador);
     }
     break;
     case 42:
     {
-        matrizPantalla[8][5] = matrizPantalla[8][5] +"("+ *nombreJugador+")";
+        pintar(8,5,8,2,respuesta,nombreJugador);
     }
     break;
     case 43:
@@ -576,17 +570,17 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 44:
     {
-        matrizPantalla[8][7] = matrizPantalla[8][7] +"("+ *nombreJugador+")";
+        pintar(8,7,8,6,respuesta,nombreJugador);
     }
     break;
     case 45:
     {
-        matrizPantalla[9][7] = matrizPantalla[9][7] +"("+ *nombreJugador+")";
+        pintar(9,7,8,6,respuesta,nombreJugador);
     }
     break;
     case 46:
     {
-        matrizPantalla[10][7] = matrizPantalla[10][7] +"("+ *nombreJugador+")";
+        pintar(10,7,8,6,respuesta,nombreJugador);
     }
     break;
     case 47:
@@ -599,17 +593,17 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 48:
     {
-        matrizPantalla[10][5] = matrizPantalla[10][5] +"("+ *nombreJugador+")";
+        pintar(10,5,10,6,respuesta,nombreJugador);
     }
     break;
     case 49:
     {
-        matrizPantalla[10][4] = matrizPantalla[10][4] +"("+ *nombreJugador+")";
+        pintar(10,4,10,6,respuesta,nombreJugador);
     }
     break;
     case 50:
     {
-        matrizPantalla[10][3] = matrizPantalla[10][3] +"("+ *nombreJugador+")";
+        pintar(10,3,10,6,respuesta,nombreJugador);
     }
     break;
     case 51:
@@ -622,7 +616,7 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     case 52:
     {
-        matrizPantalla[10][1] = matrizPantalla[10][1] +"("+ *nombreJugador+")";
+        pintar(10,1,10,2,respuesta,nombreJugador);
     }
     break;
     case 53:
@@ -633,3 +627,12 @@ void evaluaMovimiento(string *nombreJugador, int *posicionActual, int respuesta)
     break;
     }
 }
+
+
+
+/*
+Referecias:
+
+
+
+*/
