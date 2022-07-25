@@ -225,11 +225,8 @@ void juego(string *nombreJugador1, string *nombreJugador2)
     int opcion = 1;
 
     llenarCarton();
-
-    int posicionActual=1;
-    int posicionActual2=1;
-
-
+    int posicionActual=52;
+    int posicionActual2=51;
     bool meta = false;
 
     do
@@ -257,11 +254,14 @@ void juego(string *nombreJugador1, string *nombreJugador2)
         mostrarCarton();
 
         //este if es para saber quien gano
-        if(meta == true){
-            if(posicionActual>=53){
+        if(meta == true)
+        {
+            if(posicionActual>=53)
+            {
                 cout<<"EL JUGADOR "<<*nombreJugador1<<" GANO"<<endl;
             }
-            else if(posicionActual2>=53){
+            else if(posicionActual2>=53)
+            {
                 cout<<"EL JUGADOR "<<*nombreJugador2<<" GANO"<<endl;
             }
         }
@@ -275,6 +275,9 @@ void juego(string *nombreJugador1, string *nombreJugador2)
             if(opcion == 1)
             {
                 llenarCarton();
+                posicionActual=1;
+                posicionActual2=1;
+                meta = false;
             }
         }
     }
